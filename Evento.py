@@ -1,48 +1,59 @@
 import datetime
 from typing import List
 
-
 class Evento:
-    def __init__(self, fecha: datetime, duracion: datetime.timedelta, titulo: str, descripcion: str, tags: List[str], ubicacion: str):
-        self.fecha = fecha
-        self.duracion = duracion
-        self.titulo = titulo
-        self.descripcion = descripcion
-        self.tags = tags
-        self.ubicacion = ubicacion
+    def __init__(self, fecha: datetime.datetime, duracion: datetime.timedelta, titulo: str, descripcion: str, tags: List[str], ubicacion: str):
+        self._fecha = fecha
+        self._duracion = duracion
+        self._titulo = titulo
+        self._descripcion = descripcion
+        self._tags = tags
+        self._ubicacion = ubicacion
 
-    def fecha(self) -> datetime:
-        return self.fecha
+    @property
+    def fecha(self) -> datetime.datetime:
+        return self._fecha
     
-    def fecha(self, value: datetime):
-        self.fecha = value
+    @fecha.setter
+    def fecha(self, value: datetime.datetime):
+        self._fecha = value
 
+    @property
     def duracion(self) -> datetime.timedelta:
-        return self.duracion
+        return self._duracion
     
-    def duracion(self, value:datetime.timedelta):
-        self.duracion = value
+    @duracion.setter
+    def duracion(self, value: datetime.timedelta):
+        self._duracion = value
 
+    @property
     def titulo(self) -> str:
-        return self.titulo
+        return self._titulo
     
-    def titulo(self, value:str):
-        self.titulo = value
+    @titulo.setter
+    def titulo(self, value: str):
+        self._titulo = value
 
+    @property
     def descripcion(self) -> str:
-        return self.descripcion
+        return self._descripcion
     
-    def descripcion(self, value:str):
-        self.descripcion = value
+    @descripcion.setter
+    def descripcion(self, value: str):
+        self._descripcion = value
 
+    @property
     def tags(self) -> List[str]:
-        return self.tags
+        return self._tags
     
-    def tags(self, value:List[str]):
-        self.tags = value
+    @tags.setter
+    def tags(self, value: List[str]):
+        self._tags = value
 
+    @property
     def ubicacion(self) -> str:
-        return self.ubicacion
+        return self._ubicacion
     
-    def ubicacion(self, value:str):
-        self.ubicacion = value
+    @ubicacion.setter
+    def ubicacion(self, value: str):
+        self._ubicacion = value
