@@ -1,14 +1,24 @@
 import datetime
 from typing import List
 
-class Evento:
-    def __init__(self, fecha: datetime.datetime, duracion: datetime.timedelta, titulo: str, descripcion: str, tags: List[str], ubicacion: str):
+
+class EventoPrincipal:
+    def __init__(self, id: int, fecha: datetime.datetime, duracion: datetime.timedelta, titulo: str, descripcion: str, tags: List[str], ubicacion: str):
+        self._id = id
         self._fecha = fecha
         self._duracion = duracion
         self._titulo = titulo
         self._descripcion = descripcion
         self._tags = tags
         self._ubicacion = ubicacion
+
+    @property
+    def id(self) -> int:
+        return self._id
+    
+    @id.setter
+    def id(self, id:int) -> None:
+        self._id = id
 
     @property
     def fecha(self) -> datetime.datetime:
@@ -57,3 +67,6 @@ class Evento:
     @ubicacion.setter
     def ubicacion(self, value: str):
         self._ubicacion = value
+
+    def to_dict(self):
+        return {"_id": self._id, "fecha": self.fecha, "duracion": self.duracion, "titulo": self.titulo, "descripcion": self.descripcion, "tags": self.tags, "ubicacion": self.ubicacion}
