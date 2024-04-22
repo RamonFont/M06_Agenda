@@ -3,7 +3,7 @@ from typing import List
 
 
 class EventoPrincipal:
-    def __init__(self, id: int, fecha: datetime.datetime, duracion: datetime.timedelta, titulo: str, descripcion: str, tags: List[str], ubicacion: str):
+    def __init__(self, id: int, fecha: str, duracion: str, titulo: str, descripcion: str, tags: List[str], ubicacion: str):
         self._id = id
         self._fecha = fecha
         self._duracion = duracion
@@ -21,19 +21,19 @@ class EventoPrincipal:
         self._id = id
 
     @property
-    def fecha(self) -> datetime.datetime:
+    def fecha(self) -> str:
         return self._fecha
     
     @fecha.setter
-    def fecha(self, value: datetime.datetime):
+    def fecha(self, value: str):
         self._fecha = value
 
     @property
-    def duracion(self) -> datetime.timedelta:
+    def duracion(self) -> str:
         return self._duracion
     
     @duracion.setter
-    def duracion(self, value: datetime.timedelta):
+    def duracion(self, value: str):
         self._duracion = value
 
     @property

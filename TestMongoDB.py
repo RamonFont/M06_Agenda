@@ -1,5 +1,4 @@
 import unittest
-from datetime import datetime, timedelta
 from MongoDBEvento import MongoDB
 from Evento import EventoPrincipal
 
@@ -7,10 +6,10 @@ from Evento import EventoPrincipal
 class TestMongoDB(unittest.TestCase):
 
     def setUp(self):
-        self.mongodb_evento = MongoDB() 
+        self.mongodb_evento = MongoDB()
 
     def test_crear_evento(self):
-        evento = EventoPrincipal(1, datetime.now(), timedelta(hours=1), "Sant Jordi", "Reunión de Marketing", ["tag1", "tag2"], "Nou Barris, Barcelona")
+        evento = EventoPrincipal(1, "2024-04-19T10:00:00", "1 hour", "Sant Jordi", "Reunión de Marketing", ["tag1", "tag2"], "Nou Barris, Barcelona")
         self.mongodb_evento.createE(evento)
 
         # Confirmamos que el evento se haya creado correctamente
@@ -19,19 +18,19 @@ class TestMongoDB(unittest.TestCase):
         self.assertEqual(evento_creado['_id'], 1)
 
     def test_actualizar_evento(self):
-        evento = EventoPrincipal(2, datetime.now(), timedelta(hours=2), "Rosas", "Merchandising", ["tag1", "tag2"], "Passeig de gracia, 15")
+        evento = EventoPrincipal(2, "2024-04-19T12:00:00", "2 hours", "Rosas", "Merchandising", ["tag1", "tag2"], "Passeig de gracia, 15")
         self.mongodb_evento.createE(evento)
 
         # Actualizamos el evento creado anteriormente
-        nuevo_evento = EventoPrincipal(2, datetime.now(), timedelta(hours=3), "Rosas", "Marketing", ["tag3"], "Trinxant, 128")
+        nuevo_evento = EventoPrincipal(2, "2024-04-19T14:00:00", "3 hours", "Rosas", "Marketing", ["tag3"], "Trinxant, 128")
         self.mongodb_evento.updateE(2, nuevo_evento)
 
         # Confirmamos que el evento se haya actualizado correctamente
         evento_actualizado = self.mongodb_evento.getE(2)
-        self.assertEqual(evento_actualizado['duracion'], timedelta(hours=3))
+        self.assertEqual(evento_actualizado['duracion'], "3 hours")
 
     def test_eliminar_evento(self):
-        evento = EventoPrincipal(3, datetime.now(), timedelta(hours=1), "Evento a eliminar", "Evento a eliminar", ["tag1", "tag2"], "Madrid")
+        evento = EventoPrincipal(3, "2024-04-19T15:00:00", "1 hour", "Evento a eliminar", "Evento a eliminar", ["tag1", "tag2"], "Madrid")
         self.mongodb_evento.createE(evento)
 
         # Eliminamos el evento
