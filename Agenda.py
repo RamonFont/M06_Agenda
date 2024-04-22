@@ -1,5 +1,5 @@
+from datetime import datetime
 import unittest
-from datetime import datetime, timedelta
 from Evento import EventoPrincipal
 from MongoDBEvento import MongoDB
 
@@ -10,10 +10,10 @@ class Agenda(unittest.TestCase):
         self.mongodb_evento = MongoDB()
 
     def test_agregar_evento(self):
-        evento = EventoPrincipal(1, datetime.now(), timedelta(hours=1), "KPIS", "Valoración del último mes", ["tag1", "tag2"], "Barcelona")
+        evento = EventoPrincipal(1564, datetime.now(), "1 hour", "KPIS", "Valoración del último mes", ["tag1", "tag2"], "Barcelona")
         self.mongodb_evento.createE(evento)
 
-        evento_agregado = self.mongodb_evento.getE(1)
+        evento_agregado = self.mongodb_evento.getE(1564)
         self.assertIsNotNone(evento_agregado)
 
     def test_consultar_eventos_agenda(self):
