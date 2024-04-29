@@ -30,3 +30,10 @@ class MongoDB(EventoI):
         def updateE(self, id_evento, nuevo_evento):
             nuevo_evento_dict = nuevo_evento.to_dict()
             self.eventos_collection.update_one({"_id": id_evento}, {"$set": nuevo_evento_dict})
+
+        def consultar_eventos(self):
+            print("Consultando eventos...")
+            eventos = self.eventos_collection.find()  
+            eventos_lista = list(eventos)  
+            print("Eventos encontrados:", eventos_lista)
+            return eventos_lista
