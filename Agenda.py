@@ -10,7 +10,7 @@ class Agenda(unittest.TestCase):
         self.mongodb_evento = MongoDB()
 
     def test_agregar_evento(self):
-        evento = EventoPrincipal(1564, datetime.now(), "1 hora", "KPIS", "Valoración del último mes", ["tag1", "tag2"], "Barcelona")
+        evento = EventoPrincipal(1000, datetime.now(), "1 hora", "KPIS", "Valoración del último mes", ["tag1", "tag2"], "Barcelona")
         self.mongodb_evento.createE(evento)
 
         evento_agregado = self.mongodb_evento.getE(1564)
