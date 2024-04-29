@@ -1,44 +1,38 @@
-from bson import ObjectId
-from typing import List, Optional
-from EventoObjeto import EventoPrincipal
-from AgendaDAO import IAgenda
-
-class AgendaFuncionamiento(IAgenda):
-    def __init__(self, agenda_id: ObjectId, nombre: str):
-        self.agenda_id = agenda_id
-        self.nombre = nombre
-        self.usuarios = []  
-        self.eventos = []  
-
-    def agregar_usuario(self, usuario_id: ObjectId):
-        if usuario_id not in self.usuarios:
-            self.usuarios.append(usuario_id)
-
-    def eliminar_usuario(self, usuario_id: ObjectId):
-        self.usuarios = [uid for uid in self.usuarios if uid != usuario_id]
-
-    def agregar_evento(self, evento: EventoPrincipal):
-        self.eventos.append(evento)
-
-    def eliminar_evento(self, evento_id: int):
-        self.eventos = [evento for evento in self.eventos if evento.id != evento_id]
-
-    def obtener_evento_por_id(self, evento_id: int) -> Optional[EventoPrincipal]:
-        for evento in self.eventos:
-            if evento.id == evento_id:
-                return evento
-        return None
-
-    def listar_usuarios(self) -> List[ObjectId]:
-        return self.usuarios
-
-    def listar_eventos(self) -> List[EventoPrincipal]:
-        return self.eventos
-
-    def to_dict(self) -> dict:
-        return {
-            "agenda_id": self.agenda_id,
-            "nombre": self.nombre,
-            "usuarios": self.usuarios,
-            "eventos": [evento.to_dict() for evento in self.eventos]
-        }
+class PersistenciaAgenda:
+    def __init__(self, nombre: str, eventos: list, usuarios: list) -> None:
+        self._nombre = nombre
+        self._eventos = eventos
+        self._usuarios = usuarios
+        
+    @property
+    def nombre(self) -> str:
+        return self._nombre
+    
+    @nombre.setter
+    def nombre(self, nombre: str) -> None:
+        self._nombre = nombre
+        
+    
+    @property
+    def eventos(self) -> list:
+        return self._eventos
+    
+    @eventos.setter
+    def eventos(self, eventos: list) -> None:
+        self._eventos = eventos
+    
+    
+    @property
+    def usuarios(self) -> list:
+        return self._usuarios
+    
+    @usuarios.setter
+    def usuarios(self, usuarios: list) -> None:
+        self._usuarios = usuarios
+    
+    
+    def agregar_evento(self, evento) -> None:
+        self._eventos.append(evento)
+        
+    def to_dict(self):
+        return {"nombre": self.nombre, "eventos": self.eventos, "usuarios": self.usuarios}
