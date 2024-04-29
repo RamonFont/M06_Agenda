@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 class EventoI(ABC):
 
@@ -15,5 +16,5 @@ class EventoI(ABC):
         pass
 
     @abstractmethod
-    def updateE(self, id_evento):
+    def updateE(self, id_evento, nuevo_evento):
         pass

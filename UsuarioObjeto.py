@@ -1,10 +1,13 @@
+from MongoDB import MongoDBConnection
 from UsuarioDAO import IUsuario
 
+
 class UsuarioObjeto(IUsuario):
-    def __init__(self, nombre: str, agendas: list) -> None:
+    def __init__(self, nombre: str, agendas: list, db_connection: MongoDBConnection) -> None:
         self._nombre = nombre
         self._agendas = agendas
-    
+        self._db_connection = db_connection
+
     @property
     def nombre(self) -> str:
         return self._nombre

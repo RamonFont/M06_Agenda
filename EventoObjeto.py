@@ -1,6 +1,4 @@
-import datetime
 from typing import List
-
 
 class EventoPrincipal:
     def __init__(self, id: int, fecha: str, duracion: str, titulo: str, descripcion: str, tags: List[str], ubicacion: str):

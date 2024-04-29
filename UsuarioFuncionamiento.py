@@ -1,10 +1,14 @@
-from AgendaDAO import IAgenda
+from MongoDB import MongoDBConnection
+from UsuarioDAO import IUsuario
 
-class AgendaFuncionamiento(IAgenda):
-    def __init__(self, nombre: str, usuarios: list) -> None:
+
+
+class UsuarioFuncionamiento(IUsuario):
+    def __init__(self, nombre: str, agendas: list, db_connection: MongoDBConnection) -> None:
         self._nombre = nombre
-        self._usuarios = usuarios
-    
+        self._agendas = agendas
+        self._db_connection = db_connection
+
     @property
     def nombre(self) -> str:
         return self._nombre
@@ -14,19 +18,21 @@ class AgendaFuncionamiento(IAgenda):
         self._nombre = nombre
     
     @property
-    def usuarios(self) -> list:
-        return self._usuarios
+    def agendas(self) -> list:
+        return self._agendas
     
-    @usuarios.setter
-    def usuarios(self, usuarios: list) -> None:
-        self._usuarios = usuarios
+    @agendas.setter
+    def agendas(self, agendas: list) -> None:
+        self._agendas = agendas
     
-    def agregar_usuario(self, usuario) -> None:
-        self._usuarios.append(usuario)
+    def agregar_agenda(self, agenda) -> None:
+        self._agendas.append(agenda)
+        self._db_connection.db["usuarios"].update_one({"nombre": self.nombre}, {"$set": self.to_dict()}, upsert=True)
     
-    def eliminar_usuario(self, usuario) -> None:
-        if usuario in self._usuarios:
-            self._usuarios.remove(usuario)
+    def eliminar_agenda(self, agenda) -> None:
+        if agenda in self._agendas:
+            self._agendas.remove(agenda)
+            self._db_connection.db["usuarios"].update_one({"nombre": self.nombre}, {"$set": self.to_dict()}, upsert=True)
     
     def to_dict(self):
-        return {"nombre": self.nombre, "usuarios": [usuario.to_dict() for usuario in self.usuarios]}
+        return {"nombre": self.nombre, "agendas": [agenda.to_dict() for agenda in self.agendas]}

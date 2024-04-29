@@ -1,9 +1,13 @@
-class PersistenciaAgenda:
-    def __init__(self, nombre: str, eventos: list, usuarios: list) -> None:
+from AgendaDAO import IAgenda
+from MongoDB import MongoDBConnection
+
+
+class AgendaFuncionamiento(IAgenda):
+    def __init__(self, nombre: str, usuarios: list, db_connection: MongoDBConnection) -> None:
         self._nombre = nombre
-        self._eventos = eventos
         self._usuarios = usuarios
-        
+        self._db_connection = db_connection
+
     @property
     def nombre(self) -> str:
         return self._nombre
@@ -11,16 +15,6 @@ class PersistenciaAgenda:
     @nombre.setter
     def nombre(self, nombre: str) -> None:
         self._nombre = nombre
-        
-    
-    @property
-    def eventos(self) -> list:
-        return self._eventos
-    
-    @eventos.setter
-    def eventos(self, eventos: list) -> None:
-        self._eventos = eventos
-    
     
     @property
     def usuarios(self) -> list:
@@ -30,9 +24,14 @@ class PersistenciaAgenda:
     def usuarios(self, usuarios: list) -> None:
         self._usuarios = usuarios
     
+    def agregar_usuario(self, usuario) -> None:
+        self._usuarios.append(usuario)
+        self._db_connection.db["agendas"].update_one({"nombre": self.nombre}, {"$set": self.to_dict()}, upsert=True)
     
-    def agregar_evento(self, evento) -> None:
-        self._eventos.append(evento)
-        
+    def eliminar_usuario(self, usuario) -> None:
+        if usuario in self._usuarios:
+            self._usuarios.remove(usuario)
+            self._db_connection.db["agendas"].update_one({"nombre": self.nombre}, {"$set": self.to_dict()}, upsert=True)
+    
     def to_dict(self):
-        return {"nombre": self.nombre, "eventos": self.eventos, "usuarios": self.usuarios}
+        return {"nombre": self.nombre, "usuarios": [usuario.to_dict() for usuario in self.usuarios]}

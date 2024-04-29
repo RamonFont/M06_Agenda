@@ -1,31 +1,35 @@
-from typing import List
-from bson import ObjectId
-from EventoObjeto import EventoPrincipal
+from AgendaDAO import IAgenda
+from MongoDB import MongoDBConnection
 
-class Agenda:
-    def __init__(self, agenda_id: ObjectId, nombre: str, usuarios: List[ObjectId], eventos: List[EventoPrincipal]):
-        self.agenda_id = agenda_id
-        self.nombre = nombre
-        self.usuarios = usuarios
-        self.eventos = eventos
 
-    def agregar_usuario(self, usuario_id: ObjectId):
-        if usuario_id not in self.usuarios:
-            self.usuarios.append(usuario_id)
+class AgendaFuncionamiento(IAgenda):
+    def __init__(self, nombre: str, usuarios: list, db_connection: MongoDBConnection) -> None:
+        self._nombre = nombre
+        self._usuarios = usuarios
+        self._db_connection = db_connection
 
-    def eliminar_usuario(self, usuario_id: ObjectId):
-        self.usuarios = [uid for uid in self.usuarios if uid != usuario_id]
-
-    def agregar_evento(self, evento: EventoPrincipal):
-        self.eventos.append(evento)
-
-    def eliminar_evento(self, evento_id: int):
-        self.eventos = [evento for evento in self.eventos if evento.id != evento_id]
-
+    @property
+    def nombre(self) -> str:
+        return self._nombre
+    
+    @nombre.setter
+    def nombre(self, nombre: str) -> None:
+        self._nombre = nombre
+    
+    @property
+    def usuarios(self) -> list:
+        return self._usuarios
+    
+    @usuarios.setter
+    def usuarios(self, usuarios: list) -> None:
+        self._usuarios = usuarios
+    
+    def agregar_usuario(self, usuario) -> None:
+        self._usuarios.append(usuario)
+    
+    def eliminar_usuario(self, usuario) -> None:
+        if usuario in self._usuarios:
+            self._usuarios.remove(usuario)
+    
     def to_dict(self):
-        return {
-            "agenda_id": self.agenda_id,
-            "nombre": self.nombre,
-            "usuarios": self.usuarios,
-            "eventos": [evento.to_dict() for evento in self.eventos]
-        }
+        return {"nombre": self.nombre, "usuarios": [usuario.to_dict() for usuario in self.usuarios]}

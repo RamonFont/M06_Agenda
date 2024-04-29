@@ -1,38 +1,38 @@
 from abc import ABC, abstractmethod
-from typing import List
-from bson import ObjectId
-from EventoObjeto import EventoPrincipal
 
 class IAgenda(ABC):
-
     @abstractmethod
-    def agregar_usuario(self, usuario_id: ObjectId):
+    def __init__(self, nombre: str, usuarios: list) -> None:
         pass
-
+        
+    @property
     @abstractmethod
-    def eliminar_usuario(self, usuario_id: ObjectId):
+    def nombre(self) -> str:
         pass
-
+    
+    @nombre.setter
     @abstractmethod
-    def agregar_evento(self, evento: EventoPrincipal):
+    def nombre(self, nombre: str) -> None:
         pass
-
+    
+    @property
     @abstractmethod
-    def eliminar_evento(self, evento_id: int):
+    def usuarios(self) -> list:
         pass
-
+    
+    @usuarios.setter
     @abstractmethod
-    def obtener_evento_por_id(self, evento_id: int):
+    def usuarios(self, usuarios: list) -> None:
         pass
-
+    
     @abstractmethod
-    def listar_usuarios(self):
+    def agregar_usuario(self, usuario) -> None:
         pass
-
+    
     @abstractmethod
-    def listar_eventos(self):
+    def eliminar_usuario(self, usuario) -> None:
         pass
-
+    
     @abstractmethod
     def to_dict(self):
         pass
