@@ -1,6 +1,6 @@
 import unittest
-from MongoDBEvento import MongoDB
-from Evento import EventoPrincipal
+from EventoFuncionamiento import MongoDB
+from EventoObjeto import EventoPrincipal
 
 
 class TestMongoDB(unittest.TestCase):
